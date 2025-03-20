@@ -3,10 +3,12 @@ package com.walking.tbooking.model;
 public class FavoriteAirports {
     private Long id;
     private String airportCode;
+    private String airportName;
 
-    public FavoriteAirports(Long id, String airportCode) {
+    public FavoriteAirports(Long id, String airportCode, String airportName) {
         this.id = id;
         this.airportCode = airportCode;
+        this.airportName = airportName;
     }
 
     public Long getId() {
@@ -23,5 +25,13 @@ public class FavoriteAirports {
 
     public void setAirportCode(String airportCode) {
         this.airportCode = airportCode;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
     }
 }
