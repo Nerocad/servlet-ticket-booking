@@ -11,6 +11,29 @@ public class User {
     private LocalDateTime lastLogin;
     private boolean isBlocked;
 
+
+    public User(Long id, String email, String password,
+                String fullName, Role role, LocalDateTime lastLogin,
+
+
+                boolean isBlocked) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.role = role;
+        this.lastLogin = lastLogin;
+        this.isBlocked = isBlocked;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getEmail() {
         return email;
     }

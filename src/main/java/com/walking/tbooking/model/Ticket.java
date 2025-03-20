@@ -8,6 +8,17 @@ public class Ticket {
     private Long flightId;
     private Long passengerId;
 
+    public Ticket(Long id, ServiceClass serviceClass,
+                  String seatNumber, String baggageAllowance,
+                  Long flightId, Long passengerId) {
+        this.id = id;
+        this.serviceClass = serviceClass;
+        this.seatNumber = seatNumber;
+        this.baggageAllowance = baggageAllowance;
+        this.flightId = flightId;
+        this.passengerId = passengerId;
+    }
+
     public Long getFlightId() {
         return flightId;
     }

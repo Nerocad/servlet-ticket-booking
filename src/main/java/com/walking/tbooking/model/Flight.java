@@ -11,6 +11,18 @@ public class Flight {
     private int totalSeats;
     private int availableSeats;
 
+    public Flight(Long id, LocalDateTime departureTime,
+                  LocalDateTime arrivalTime, String departureAirportCode,
+                  String arrivalAirportCode, int totalSeats, int availableSeats) {
+        this.id = id;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.departureAirportCode = departureAirportCode;
+        this.arrivalAirportCode = arrivalAirportCode;
+        this.totalSeats = totalSeats;
+        this.availableSeats = availableSeats;
+    }
+
     public Long getId() {
         return id;
     }

@@ -10,6 +10,17 @@ public class Passenger {
     private String passportData;
     private FavoriteAirports[] favoriteAirports;
 
+    public Passenger(Long id, String fullName,
+                     Gender gender, LocalDate birthDate,
+                     String passportData, FavoriteAirports[] favoriteAirports) {
+        this.id = id;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.passportData = passportData;
+        this.favoriteAirports = favoriteAirports;
+    }
+
     public Long getId() {
         return id;
     }
