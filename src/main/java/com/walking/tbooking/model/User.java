@@ -12,6 +12,9 @@ public class User {
     private boolean isBlocked;
 
 
+    public User() {
+    }
+
     public User(Long id, String email, String password,
                 String fullName, Role role, LocalDateTime lastLogin,
 

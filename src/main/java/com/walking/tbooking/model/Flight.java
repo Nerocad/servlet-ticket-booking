@@ -11,6 +11,10 @@ public class Flight {
     private int totalSeats;
     private int availableSeats;
 
+
+    public Flight() {
+    }
+
     public Flight(Long id, LocalDateTime departureTime,
                   LocalDateTime arrivalTime, String departureAirportCode,
                   String arrivalAirportCode, int totalSeats, int availableSeats) {

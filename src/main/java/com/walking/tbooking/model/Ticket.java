@@ -8,6 +8,10 @@ public class Ticket {
     private Long flightId;
     private Long passengerId;
 
+
+    public Ticket() {
+    }
+
     public Ticket(Long id, ServiceClass serviceClass,
                   String seatNumber, String baggageAllowance,
                   Long flightId, Long passengerId) {

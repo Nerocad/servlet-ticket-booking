@@ -5,6 +5,10 @@ public class FavoriteAirports {
     private String airportCode;
     private String airportName;
 
+
+    public FavoriteAirports() {
+    }
+
     public FavoriteAirports(Long id, String airportCode, String airportName) {
         this.id = id;
         this.airportCode = airportCode;

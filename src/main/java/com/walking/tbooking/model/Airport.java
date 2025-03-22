@@ -6,6 +6,10 @@ public class Airport {
     private String name;
     private String address;
 
+
+    public Airport() {
+    }
+
     public Airport(Long id, String code, String name, String address) {
         this.id = id;
         this.code = code;
