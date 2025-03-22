@@ -10,6 +10,10 @@ public class Passenger {
     private String passportData;
     private FavoriteAirports[] favoriteAirports;
 
+
+    public Passenger() {
+    }
+
     public Passenger(Long id, String fullName,
                      Gender gender, LocalDate birthDate,
                      String passportData, FavoriteAirports[] favoriteAirports) {
