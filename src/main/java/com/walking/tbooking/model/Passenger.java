@@ -15,6 +15,10 @@ public class Passenger {
     public Passenger() {
     }
 
+
+    public Passenger() {
+    }
+
     public Passenger(Long id, String fullName,
                      Gender gender, LocalDate birthDate,
                      String passportData, List<FavoriteAirports> favoriteAirports) {
