@@ -1,6 +1,7 @@
 package com.walking.tbooking.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Passenger {
     private Long id;
@@ -8,7 +9,7 @@ public class Passenger {
     private Gender gender;
     private LocalDate birthDate;
     private String passportData;
-    private FavoriteAirports[] favoriteAirports;
+    private List<FavoriteAirports> favoriteAirports;
 
 
     public Passenger() {
@@ -16,7 +17,7 @@ public class Passenger {
 
     public Passenger(Long id, String fullName,
                      Gender gender, LocalDate birthDate,
-                     String passportData, FavoriteAirports[] favoriteAirports) {
+                     String passportData, List<FavoriteAirports> favoriteAirports) {
         this.id = id;
         this.fullName = fullName;
         this.gender = gender;
@@ -65,11 +66,11 @@ public class Passenger {
         this.passportData = passportData;
     }
 
-    public FavoriteAirports[] getFavoriteAirports() {
+    public List<FavoriteAirports> getFavoriteAirports() {
         return favoriteAirports;
     }
 
-    public void setFavoriteAirports(FavoriteAirports[] favoriteAirports) {
+    public void setFavoriteAirports(List<FavoriteAirports> favoriteAirports) {
         this.favoriteAirports = favoriteAirports;
     }
 
