@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-
+class AirportConverter implements ResultSetAirportConverter<Optional<Airport>> {
 
     @Override
     public Optional<Airport> convert(ResultSet rs) throws SQLException {
