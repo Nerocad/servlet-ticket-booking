@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PassengerConverter implements ResultSetPassengerConverter<Optional<Passenger>>{
+public class PassengerConverter implements ResultSetConverter<Optional<Passenger>>{
 
     PassengerRepository passengerRepository;
     List<FavoriteAirports> airports = new ArrayList<>();
