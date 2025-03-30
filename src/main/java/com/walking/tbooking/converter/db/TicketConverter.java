@@ -1,0 +1,26 @@
+package com.walking.tbooking.converter.db;
+
+import com.walking.tbooking.model.Ticket;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+
+public class TicketConverter implements ResultSetConverter<Optional<Ticket>> {
+
+    @Override
+    public Optional<Ticket> convert(ResultSet rs, Long passenger_id) throws SQLException {
+        return rs.next() ? Optional.of(mapRow(rs)) : Optional.empty();
+    }
+
+    private Ticket mapRow(ResultSet rs) throws SQLException {
+        Ticket ticket = new Ticket();
+
+        ticket.setId(rs.getLong("id"));
+        ticket.setServiceClass(Ticket.ServiceClass.valueOf(rs.getString("service_class ")));
+        ticket.setSeatNumber(rs.getInt("seat_number"));
+        ticket.setBaggageAllowance(rs.getString("baggage_allowance"));
+
+        return ticket;
+    }
+}
