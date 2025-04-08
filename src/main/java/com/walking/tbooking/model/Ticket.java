@@ -3,7 +3,7 @@ package com.walking.tbooking.model;
 public class Ticket {
     private Long id;
     private ServiceClass serviceClass;
-    private String seatNumber;
+    private int seatNumber;
     private String baggageAllowance;
     private Long flightId;
     private Long passengerId;
@@ -13,7 +13,7 @@ public class Ticket {
     }
 
     public Ticket(Long id, ServiceClass serviceClass,
-                  String seatNumber, String baggageAllowance,
+                  int seatNumber, String baggageAllowance,
                   Long flightId, Long passengerId) {
         this.id = id;
         this.serviceClass = serviceClass;
@@ -55,11 +55,11 @@ public class Ticket {
         this.serviceClass = serviceClass;
     }
 
-    public String getSeatNumber() {
+    public int getSeatNumber() {
         return seatNumber;
     }
 
-    public void setSeatNumber(String seatNumber) {
+    public void setSeatNumber(int seatNumber) {
         this.seatNumber = seatNumber;
     }
 

@@ -11,11 +11,6 @@ public class Passenger {
     private String passportData;
     private List<FavoriteAirports> favoriteAirports;
 
-
-    public Passenger() {
-    }
-
-
     public Passenger() {
     }
 
