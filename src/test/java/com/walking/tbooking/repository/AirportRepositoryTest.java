@@ -46,7 +46,7 @@ public class AirportRepositoryTest {
     }
 
     @Test
-    void findById_whenAirportExists() throws SQLException {
+    void findById_when_airport_exists() throws SQLException {
 
         Airport expectedAirport = new Airport(1L, "SVO", "Шереметьево", "Москва");
 
@@ -61,9 +61,8 @@ public class AirportRepositoryTest {
         verify(statement).setLong(1, 1L);
     }
     @Test
-    void findById_whenAirportNotExists() throws SQLException {
+    void findById_when_airport_not_exists() throws SQLException {
         when(statement.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true);
         when(converter.convert(rs)).thenReturn(Optional.empty());
 
         Optional<Airport> result = airportRepository.findById(1L);
@@ -71,8 +70,9 @@ public class AirportRepositoryTest {
         assertTrue(result.isEmpty());
 
     }
+
     @Test
-    void create_airport_thenReturns_airportWithId() throws SQLException {
+    void create_airport_thenReturns_airport_with_id() throws SQLException {
         Airport airport = new Airport(null, "SVO", "Шереметьево", "Москва");
 
         when(statement.executeQuery()).thenReturn(rs);
@@ -86,6 +86,7 @@ public class AirportRepositoryTest {
         verify(statement).setString(2, "Шереметьево");
         verify(statement).setString(3, "Москва");
     }
+
     @Test
     void update_airport() throws SQLException {
         Airport airport = new Airport(1L, "SVO", "Шереметьево", "Москва");
