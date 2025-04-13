@@ -9,7 +9,7 @@ import java.util.Optional;
 public class TicketConverter implements ResultSetConverter<Optional<Ticket>> {
 
     @Override
-    public Optional<Ticket> convert(ResultSet rs, Long passenger_id) throws SQLException {
+    public Optional<Ticket> convert(ResultSet rs) throws SQLException {
         return rs.next() ? Optional.of(mapRow(rs)) : Optional.empty();
     }
 

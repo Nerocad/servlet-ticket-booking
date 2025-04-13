@@ -10,7 +10,7 @@ import java.util.Optional;
 public class AirportConverter implements ResultSetConverter<Optional<Airport>> {
 
     @Override
-    public Optional<Airport> convert(ResultSet rs, Long id) throws SQLException {
+    public Optional<Airport> convert(ResultSet rs) throws SQLException {
         return rs.next() ? Optional.of(mapRow(rs)) : Optional.empty();
     }
 

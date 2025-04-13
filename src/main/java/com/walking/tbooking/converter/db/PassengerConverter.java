@@ -1,5 +1,6 @@
 package com.walking.tbooking.converter.db;
 
+import com.walking.tbooking.model.Airport;
 import com.walking.tbooking.model.FavoriteAirports;
 import com.walking.tbooking.model.Passenger;
 import com.walking.tbooking.repository.PassengerRepository;
@@ -13,33 +14,46 @@ import java.util.Optional;
 
 public class PassengerConverter implements ResultSetConverter<Optional<Passenger>>{
 
-    PassengerRepository passengerRepository;
-    List<FavoriteAirports> airports = new ArrayList<>();
-
-
-    public PassengerConverter(PassengerRepository passengerRepository) {
-        this.passengerRepository = passengerRepository;
-    }
-
-
     @Override
-    public Optional<Passenger> convert(ResultSet rs, Long passenger_id) throws SQLException {
-        return rs.next() ? Optional.of(mapRow(rs, passenger_id)) : Optional.empty();
+    public Optional<Passenger> convert(ResultSet rs) throws SQLException {
+        Passenger passenger = null;
+        List<FavoriteAirports> favoriteAirports = new ArrayList<>();
+
+        while(rs.next()) {
+            if (passenger == null) {
+                passenger = mapRow(rs);
+            }
+
+            if (rs.getObject("airport_id") != null) {
+                favoriteAirports.add(mapFavoriteAirport(rs));
+            }
+        }
+
+        if (passenger != null) {
+            passenger.setFavoriteAirports(favoriteAirports);
+            return Optional.of(passenger);
+        }
+        return Optional.empty();
     }
 
-    private Passenger mapRow(ResultSet rs, Long passenger_id) throws SQLException {
-
+    private Passenger mapRow(ResultSet rs) throws SQLException {
         Passenger passenger = new Passenger();
-
-        passenger.setId(rs.getLong("id"));
-        passenger.setFullName(rs.getString("fullname"));
-        passenger.setGender(Passenger.Gender.valueOf(rs.getString("Gender")));
-        passenger.setBirthDate(rs.getObject("birth_date", LocalDate.class));
-        passenger.setPassportData(rs.getString("passport_data"));
-        airports = passengerRepository.getFavoriteAirportsByPassengerId(passenger_id);
-        passenger.setFavoriteAirports(airports);
+        passenger.setId(rs.getLong("passenger_id"));
+        passenger.setFullName(rs.getString("passenger_name"));
+        passenger.setGender(Passenger.Gender.valueOf(
+                rs.getString("passenger_gender")
+        ));
+        passenger.setBirthDate(rs.getDate("passenger_birth_date").toLocalDate());
+        passenger.setPassportData(rs.getString("passenger_passport"));
 
         return passenger;
+    }
 
+    private FavoriteAirports mapFavoriteAirport(ResultSet rs) throws SQLException {
+        return new FavoriteAirports(
+                rs.getLong("airport_id"),
+                rs.getString("airport_code"),
+                rs.getString("airport_name")
+        );
     }
 }

@@ -18,7 +18,6 @@ import java.util.Optional;
 public class PassengerRepository {
     private final DataSource dataSource;
     private final PassengerConverter converter;
-    private List<FavoriteAirports> airports = new ArrayList<>();
 
     public PassengerRepository(DataSource dataSource, PassengerConverter converter) {
         this.dataSource = dataSource;
@@ -26,14 +25,31 @@ public class PassengerRepository {
     }
 
     public Optional<Passenger> findById(Long id) {
-        String sql = "select * from passenger where id = ?";
+        String sql = """
+                select
+                    p.id as passenger_id,
+                    p.fullname as passenger_name,
+                    p.gender as passenger_gender,
+                    p.birth_date as passenger_birth_date,
+                    p.passport_data as passenger_passport,
+                    a.id as airport_id,
+                    a.code as airport_code,
+                    a.name as airport_name
+                    a.address as airport_address
+                from passenger p
+                left join passenger_favorite_airport pfa
+                    on p.id = pfa.passenger_id
+                left join airport a
+                    on pfa.airport_id = a.id
+                where p.id =?
+                """;
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
 
-            return converter.convert(rs, id);
+            return converter.convert(rs);
 
 
 
@@ -100,38 +116,6 @@ public class PassengerRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при удалении пассажира");
         }
-    }
-
-
-
-    public List<FavoriteAirports> getFavoriteAirportsByPassengerId(Long passengerId) {
-        List<FavoriteAirports> airports = new ArrayList<>();
-
-        String sql = """
-                select * from favorite airport a
-                join passenger_favorite_airport pfa
-                on a.id = pfa.airport_id
-                where pfa.passenger_id = ?
-                """;
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, passengerId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                FavoriteAirports airport = new FavoriteAirports();
-                airport.setId(rs.getLong("id"));
-                airport.setAirportCode(rs.getString("code"));
-                airport.setAirportName(rs.getString("name"));
-                airports.add(airport);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Ошибка при поиске любимых аэропортов");
-        }
-
-        return airports;
     }
 
     private void setParameters(Passenger passenger, PreparedStatement statement) throws SQLException {
