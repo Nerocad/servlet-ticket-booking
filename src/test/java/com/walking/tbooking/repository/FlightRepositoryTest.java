@@ -21,6 +21,7 @@ import static org.mockito.Mockito.*;
 
 
 public class FlightRepositoryTest {
+
     private DataSource dataSource;
     private Connection connection;
     private PreparedStatement statement;

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Passenger {
+
     private Long id;
     private String fullName;
     private Gender gender;
@@ -74,7 +75,7 @@ public class Passenger {
     }
 
     public enum Gender {
-        MALE,FEMALE
+        MALE, FEMALE
     }
 }
 

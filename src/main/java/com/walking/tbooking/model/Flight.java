@@ -3,6 +3,7 @@ package com.walking.tbooking.model;
 import java.time.LocalDateTime;
 
 public class Flight {
+
     private Long id;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
@@ -10,7 +11,6 @@ public class Flight {
     private String arrivalAirportCode;
     private int totalSeats;
     private int availableSeats;
-
 
     public Flight() {
     }
