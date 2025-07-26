@@ -1,9 +1,8 @@
 package com.walking.tbooking.converter.db;
 
-import com.walking.tbooking.model.Airport;
 import com.walking.tbooking.model.FavoriteAirports;
+import com.walking.tbooking.model.Gender;
 import com.walking.tbooking.model.Passenger;
-import com.walking.tbooking.repository.PassengerRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +39,7 @@ public class PassengerConverter implements ResultSetConverter<Optional<Passenger
         Passenger passenger = new Passenger();
         passenger.setId(rs.getLong("passenger_id"));
         passenger.setFullName(rs.getString("passenger_name"));
-        passenger.setGender(Passenger.Gender.valueOf(
+        passenger.setGender(Gender.valueOf(
                 rs.getString("passenger_gender")
         ));
         passenger.setBirthDate(rs.getDate("passenger_birth_date").toLocalDate());

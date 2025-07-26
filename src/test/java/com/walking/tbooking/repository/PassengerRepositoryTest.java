@@ -1,6 +1,8 @@
 package com.walking.tbooking.repository;
 
 import com.walking.tbooking.converter.db.PassengerConverter;
+import com.walking.tbooking.model.FavoriteAirports;
+import com.walking.tbooking.model.Gender;
 import com.walking.tbooking.model.Passenger;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,9 +50,13 @@ public class PassengerRepositoryTest {
     @Test
     void findById_shouldReturnPassengerWithAirports() throws SQLException {
         Long id = 1L;
-        Passenger expectedPassenger = new Passenger(1L, "John Doe", Passenger.Gender.MALE,
-                                                    LocalDate.of(1990, 1, 1)
-                                                    , "123456789");
+        List<FavoriteAirports> airports = new ArrayList<>();
+        airports.add(new FavoriteAirports(1L, "SVO", "Шереметьево"));
+        airports.add(new FavoriteAirports(2L, "VKO", "Внуково"));
+        airports.add(new FavoriteAirports(3L, "LED", "Пулково"));
+        Passenger expectedPassenger = new Passenger(1L, "John", Gender.MALE,
+                LocalDate.of(1990, 1, 1), "45 10 897456",
+                airports);
 
         when(statement.executeQuery()).thenReturn(rs);
         when(converter.convert(rs)).thenReturn(Optional.of(expectedPassenger));

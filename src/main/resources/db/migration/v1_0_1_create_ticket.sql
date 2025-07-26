@@ -1,6 +1,6 @@
 create type service_class_type as enum ('Economy', 'Business', 'First');
 
-create table if not exists ticket (
+create table ticket (
 id                        bigserial              primary key,
 service_class             service_class_type     not null,
 seat_number               integer                not null,

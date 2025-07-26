@@ -1,13 +1,13 @@
 package com.walking.tbooking.model;
 
 public class Ticket {
+
     private Long id;
     private ServiceClass serviceClass;
     private int seatNumber;
     private String baggageAllowance;
     private Long flightId;
     private Long passengerId;
-
 
     public Ticket() {
     }

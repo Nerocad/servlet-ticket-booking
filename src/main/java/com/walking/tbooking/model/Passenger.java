@@ -73,9 +73,5 @@ public class Passenger {
     public void setFavoriteAirports(List<FavoriteAirports> favoriteAirports) {
         this.favoriteAirports = favoriteAirports;
     }
-
-    public enum Gender {
-        MALE, FEMALE
-    }
 }
 

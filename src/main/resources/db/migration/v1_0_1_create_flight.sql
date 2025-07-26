@@ -1,4 +1,4 @@
-create table if not exists flight (
+create table flight (
 id                        bigserial       primary key,
 departure_time            timestamp       not null,
 arrival_time              timestamp       not null,

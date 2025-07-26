@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class FlightRepository {
+
     private final DataSource dataSource;
     private final FlightConverter converter;
 

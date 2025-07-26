@@ -1,6 +1,6 @@
 create type gender_type as enum ('Male', 'Female');
 
-create table if not exists passenger (
+create table passenger (
 id                        bigserial       primary key,
 fullname                  varchar(100)    not null,
 gender                    gender_type     not null,

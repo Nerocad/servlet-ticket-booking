@@ -1,6 +1,6 @@
 create type role_type as enum ('User', 'Admin');
 
-create table if not exists user (
+create table user (
 id                        bigserial       primary key,
 email                     varchar(100)    not null,
 password                  varchar(100)    not null,

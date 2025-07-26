@@ -7,30 +7,32 @@ import com.zaxxer.hikari.HikariDataSource;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class AddAttributes implements ServletContextListener {
+public class AddAttributesListener implements ServletContextListener {
 
-    private final String PROPERTIES_PATH = "./resources/hikari.properties";
+    private static final String PROPERTIES_PATH = "./resources/hikari.properties";
+    private static final Logger logger = (Logger) LogManager.getLogger(AddAttributesListener.class);
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
 
         ServletContext servletContext = event.getServletContext();
 
-        DataSource dataSource = hikariDataSource(servletContext);
+        DataSource dataSource = createHikariDataSource(servletContext);
         servletContext.setAttribute("dataSource", dataSource);
 
-        MigrationService migrationService = new MigrationService(dataSource);
-        servletContext.setAttribute("migrationService", migrationService);
+        servletContext.setAttribute("migrationService", new MigrationService(dataSource));
 
     }
 
-    private DataSource hikariDataSource(ServletContext servletContext) {
+    private DataSource createHikariDataSource(ServletContext servletContext) {
         try (InputStream propertiesInputStream = servletContext.getResourceAsStream(PROPERTIES_PATH)) {
             Properties hikariProperties = new Properties();
             hikariProperties.load(propertiesInputStream);
@@ -39,9 +41,8 @@ public class AddAttributes implements ServletContextListener {
 
             return new HikariDataSource(configuration);
         } catch (IOException e) {
-            System.out.println("Невозможно загрузить конфигурацию для Hikari");
-
-            throw new RuntimeException(e);
+            logger.error("Failed to load Hikari configuration from {}", PROPERTIES_PATH, e);
+            throw new RuntimeException("Failed to initialize HikariCP", e);
         }
     }
 }
