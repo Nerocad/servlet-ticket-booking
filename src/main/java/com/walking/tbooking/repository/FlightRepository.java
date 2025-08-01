@@ -66,6 +66,7 @@ public class FlightRepository {
                         available_seats = ?
                     where id = ?
                 """;
+
         try (Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
 
