@@ -84,7 +84,4 @@ public class User {
         isBlocked = blocked;
     }
 
-    public enum Role {
-        USER, ADMIN
-    }
 }

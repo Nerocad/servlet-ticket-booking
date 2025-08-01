@@ -35,7 +35,7 @@ public class PassengerRepository {
                     p.passport_data as passenger_passport,
                     a.id as airport_id,
                     a.code as airport_code,
-                    a.name as airport_name
+                    a.name as airport_name,
                     a.address as airport_address
                 from passenger p
                 left join passenger_favorite_airport pfa
