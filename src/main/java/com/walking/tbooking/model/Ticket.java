@@ -71,7 +71,4 @@ public class Ticket {
         this.baggageAllowance = baggageAllowance;
     }
 
-    public enum ServiceClass {
-        ECONOMY, BUSINESS, FIRST
-    }
 }
