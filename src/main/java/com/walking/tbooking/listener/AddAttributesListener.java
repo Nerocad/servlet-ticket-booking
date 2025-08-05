@@ -1,7 +1,12 @@
 package com.walking.tbooking.listener;
 
 
+import com.walking.tbooking.converter.db.UserConverter;
+import com.walking.tbooking.model.Role;
+import com.walking.tbooking.model.User;
+import com.walking.tbooking.repository.UserRepository;
 import com.walking.tbooking.service.MigrationService;
+import com.walking.tbooking.util.PasswordUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.servlet.ServletContext;
@@ -13,6 +18,8 @@ import org.apache.logging.log4j.core.Logger;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Properties;
 
 public class AddAttributesListener implements ServletContextListener {
@@ -25,10 +32,16 @@ public class AddAttributesListener implements ServletContextListener {
 
         ServletContext servletContext = event.getServletContext();
 
+        UserConverter converter = new UserConverter();
+
         DataSource dataSource = createHikariDataSource(servletContext);
         servletContext.setAttribute("dataSource", dataSource);
 
         servletContext.setAttribute("migrationService", new MigrationService(dataSource));
+
+        initRepositories(servletContext, dataSource, converter);
+
+        createDefaultAdmin(servletContext);
 
     }
 
@@ -44,5 +57,27 @@ public class AddAttributesListener implements ServletContextListener {
             logger.error("Failed to load Hikari configuration from {}", PROPERTIES_PATH, e);
             throw new RuntimeException("Failed to initialize HikariCP", e);
         }
+    }
+
+    private void initRepositories(ServletContext context, DataSource dataSource, UserConverter converter) {
+        UserRepository userRepository = new UserRepository(dataSource, converter);
+        context.setAttribute("userRepository", userRepository);
+    }
+
+    private void createDefaultAdmin(ServletContext context) {
+        UserRepository userRepository = (UserRepository) context.getAttribute("userRepository");
+        String adminEmail = "admin@example.com";
+        Optional<User> userOptional = userRepository.findByEmail(adminEmail);
+
+            if (userOptional.isEmpty()) {
+                User admin = new User();
+                admin.setEmail(adminEmail);
+                admin.setPassword(PasswordUtil.hashPassword("admin"));
+                admin.setFullName("System Administrator");
+                admin.setRole(Role.ADMIN);
+                admin.setBlocked(false);
+
+                userRepository.create(admin);
+            }
     }
 }
