@@ -4,10 +4,8 @@ import com.walking.tbooking.converter.db.UserConverter;
 import com.walking.tbooking.model.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -22,7 +20,7 @@ public class UserRepository {
     }
 
     public Optional<User> findById(Long id) {
-        String sql = "select * from user where id = ?";
+        String sql = "select * from \"user\" where id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -37,7 +35,7 @@ public class UserRepository {
 
     public User create(User user) {
         String sql = """
-                insert into(email, password, fullname, role,
+                insert into "user" (email, password, fullname, role,
                             last_login, is_blocked) values
                             (?, ?, ?, ?, ?, ?) returning id;
                 """;
@@ -58,7 +56,7 @@ public class UserRepository {
 
     public User update(User user) {
         String sql = """
-                update user
+                update "user"
                     set email = ?,
                         password = ?,
                         fullname = ?,
@@ -82,7 +80,7 @@ public class UserRepository {
     }
 
     public void deleteById(Long id) {
-        String sql = "delete from user where id = ?";
+        String sql = "delete from \"user\"  where id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -91,6 +89,34 @@ public class UserRepository {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка удаления пользователя");
+        }
+    }
+
+    public void updateLastLogin(Long userId) {
+        String sql = "update \"user\"  set last_login = ? where id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setLong(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при обновлении даты входа");
+        }
+    }
+
+    public Optional<User> findByEmail(String email) {
+        String sql = "select * from \"user\" where email = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            return converter.convert(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка поиска юзера по email");
         }
     }
 
